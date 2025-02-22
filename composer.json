@@ -1,5 +1,5 @@
 {
-  "name": "gustavosantarosa/handler-basics-extension",
+  "name": "quantumtecnology/handler-basics-extension",
   "license": "MIT",
   "homepage": "http://www.gustavosantarosa.esy.es/",
   "description": "Handler Basics Extension",
@@ -10,7 +10,7 @@
   },
   "autoload": {
     "psr-4": {
-      "GustavoSantarosa\\HandlerBasicsExtension\\": "src/"
+      "QuantumTecnology\\HandlerBasicsExtension\\": "src/"
     }
   },
   "authors": [
@@ -27,7 +27,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "GustavoSantarosa\\HandlerBasicsExtension\\Provider\\HandlerBasicsExtensionProvider"
+        "QuantumTecnology\\HandlerBasicsExtension\\Provider\\HandlerBasicsExtensionProvider"
       ]
     }
   },

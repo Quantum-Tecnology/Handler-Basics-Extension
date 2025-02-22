@@ -1,6 +1,6 @@
 <?php
 
-namespace GustavoSantarosa\HandlerBasicsExtension\Exceptions;
+namespace QuantumTecnology\HandlerBasicsExtension\Exceptions;
 
 use Exception;
 use Illuminate\Http\Response;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use GustavoSantarosa\HandlerBasicsExtension\Traits\ApiResponseTrait;
+use QuantumTecnology\HandlerBasicsExtension\Traits\ApiResponseTrait;
 
 class BaseHandler extends ExceptionHandler
 {

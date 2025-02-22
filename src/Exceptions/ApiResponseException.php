@@ -1,6 +1,6 @@
 <?php
 
-namespace GustavoSantarosa\HandlerBasicsExtension\Exceptions;
+namespace QuantumTecnology\HandlerBasicsExtension\Exceptions;
 
 class ApiResponseException extends \Exception
 {

@@ -12,7 +12,7 @@ Sempre que possivel ele sera atualizado, e esta aberto para a comunidade sugerir
 Para utilizar a classe, basta instalar ela utilizando o comando do composer:
 
 ```
-composer require gustavosantarosa/handler-basics-extension
+composer require quantumtecnology/handler-basics-extension
 ```
 
 extender ela na sua classe handle dentro de exceptions, e utilizar os retornos default que esta dentro da trait ApiResponseTrait a vontade.
@@ -31,10 +31,10 @@ Nele existem algumas ferramentas uteis.
 
 ## 🧐 Outras Bibliotecas
 
-- [Enum-Basics-Extension](https://packagist.org/packages/gustavosantarosa/enum-basics-extension) - Utilizado para auxiliar nas Classes de Enums;
-- [SetSchema-Trait](https://packagist.org/packages/gustavosantarosa/setschema-trait-postgresql) - Suprir a necessidade de setar os schemas automaticamente do PostgreSQL;
-- [Validate-Trait](https://packagist.org/packages/gustavosantarosa/validate-trait) - Bindar os Requests automaticamente de acordo com o caminho do Service Pattern;
-- [PerPage-Trait](https://packagist.org/packages/gustavosantarosa/perpage-trait) - Padronizar a quantidade do paginate na api inteira e definir uma quantidade máxima;
+- [Enum-Basics-Extension](https://packagist.org/packages/quantumtecnology/enum-basics-extension) - Utilizado para auxiliar nas Classes de Enums;
+- [SetSchema-Trait](https://packagist.org/packages/quantumtecnology/setschema-trait-postgresql) - Suprir a necessidade de setar os schemas automaticamente do PostgreSQL;
+- [Validate-Trait](https://packagist.org/packages/quantumtecnology/validate-trait) - Bindar os Requests automaticamente de acordo com o caminho do Service Pattern;
+- [PerPage-Trait](https://packagist.org/packages/quantumtecnology/perpage-trait) - Padronizar a quantidade do paginate na api inteira e definir uma quantidade máxima;
 
 ## ⛏️ Ferramentas
 
@@ -43,4 +43,4 @@ Nele existem algumas ferramentas uteis.
 
 ## ✍️ Autor
 
-- [@Luis Gustavo Santarosa Pinto](https://github.com/GustavoSantarosa) - Idea & Initial work
+- [@Luis Gustavo Santarosa Pinto](https://github.com/QuantumTecnology) - Idea & Initial work

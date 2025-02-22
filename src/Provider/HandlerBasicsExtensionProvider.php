@@ -1,6 +1,6 @@
 <?php
 
-namespace GustavoSantarosa\HandlerBasicsExtension\Provider;
+namespace QuantumTecnology\HandlerBasicsExtension\Provider;
 
 use Illuminate\Support\ServiceProvider;
 
