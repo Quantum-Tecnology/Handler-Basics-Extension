@@ -9,9 +9,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 trait ApiResponseTrait
 {
-    protected array $allowedIncludes = [];
-    protected array $allowedFilters  = [];
-
     /**
      * OkResponse function.
      */
@@ -155,7 +152,7 @@ trait ApiResponseTrait
         }
 
         if (
-            count($this->allowedFilters) > 0
+            count($this->allowedFilters ?? []) > 0
             && $allowedFilters
             && 'production' !== config('app.env')
         ) {
