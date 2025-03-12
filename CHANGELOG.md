@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.0.3 (11/03/2025)
+
+# PT-BR
+
+- Fixado um erro latente relacionado ao allowedInclude na trait ApiResponseTrait @GustavoSantarosa
+
+# EN
+
+- Fixed a latent error related to allowedInclude in the ApiResponseTrait trait @GustavoSantarosa
+
 ## V2.0.2 (10/03/2025)
 
 # PT-BR

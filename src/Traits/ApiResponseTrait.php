@@ -144,7 +144,7 @@ trait ApiResponseTrait
         ];
 
         if (
-            count($this->allowedIncludes) > 0
+            count($this->allowedIncludes ?? []) > 0
             && $allowedInclude
             && 'production' !== config('app.env')
         ) {
