@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.X.X (11/03/2025)
+
+# PT-BR
+
+- Corrigindo a validação do include quando passado os campos para a relação
+
+# EN
+
+- Fixed the validation of the include when the fields passed to the relationship
+
 ## V2.0.3 (11/03/2025)
 
 # PT-BR
