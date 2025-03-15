@@ -215,7 +215,14 @@ trait ApiResponseTrait
      */
     public function checkIncludes(): void
     {
-        $include = request()->get('include', false);
+        $include = collect(explode(',', request()->get('include', false)))
+            ->map(function($item){
+                [$item] = explode(':', $item);
+                return $item;
+            })
+            ->implode(',');
+
+
         if ($include && $diff = array_diff(explode(',', $include), $this->allowedIncludes)) {
             $this->forbiddenResponse("The following includes are not allowed: '".implode(',', $diff)."', enabled: '".implode(',', $this->allowedIncludes)."'");
         }
