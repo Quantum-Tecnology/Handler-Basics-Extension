@@ -3,6 +3,7 @@
 namespace QuantumTecnology\HandlerBasicsExtension\Exceptions;
 
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -67,6 +68,7 @@ class BaseHandler extends ExceptionHandler
             $e instanceof NotFoundHttpException  => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: $e->getMessage()),
             $e instanceof AuthorizationException => $this->customResponse(status: Response::HTTP_FORBIDDEN, message: $e->getMessage()),
             $e instanceof HttpException          => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
+            $e instanceof QueryException         => $this->customResponse(status: Response::HTTP_BAD_REQUEST, message: $e->getMessage()),
             !config('app.debug')                 => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
             default                              => false,
         };
