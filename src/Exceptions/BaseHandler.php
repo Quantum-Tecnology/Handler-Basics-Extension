@@ -68,8 +68,8 @@ class BaseHandler extends ExceptionHandler
             $e instanceof NotFoundHttpException  => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: $e->getMessage()),
             $e instanceof AuthorizationException => $this->customResponse(status: Response::HTTP_FORBIDDEN, message: $e->getMessage()),
             $e instanceof HttpException          => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
-            $e instanceof QueryException         => $this->customResponse(status: Response::HTTP_BAD_REQUEST, message: $e->getMessage()),
-            !config('app.debug')                 => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
+            $e instanceof QueryException         => $this->queryResponse($e),
+            !config('app.debug')            => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
             default                              => false,
         };
 
@@ -78,5 +78,16 @@ class BaseHandler extends ExceptionHandler
         }
 
         return parent::render($request, $e);
+    }
+
+    protected function queryResponse(Exception $exception) {
+        if ((int) $exception->getCode() === 23503) {
+            return $this->customResponse(
+                status: Response::HTTP_BAD_REQUEST,
+                message: __('Ocorreu um erro ao tentar excluir o registro! Verifique se o mesmo não está vinculado a outro registro.')
+            );
+        }
+
+        throw $exception;
     }
 }
