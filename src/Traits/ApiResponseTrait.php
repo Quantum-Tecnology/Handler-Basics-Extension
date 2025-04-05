@@ -215,7 +215,7 @@ trait ApiResponseTrait
      */
     public function checkIncludes(): void
     {
-        $include = collect(explode(',', request()->get('include', false)))
+        $include = collect(explode(',', request()->get('include', '')))
             ->map(function($item){
                 [$item] = explode(':', $item);
                 return $item;
