@@ -4,6 +4,16 @@
 
 # PT-BR
 
+- Esta ocorrendo erro que por default deve ser uma string vazia e não um boolean
+
+# EN
+
+- This error is occurring which by default should be an empty string and not a boolean
+
+## V2.0.5 (01/04/2025)
+
+# PT-BR
+
 - Quando ocorrer erro de foreign key no banco de dados, a mensagem vai ser tratada. @bhcosta90
 
 # EN
