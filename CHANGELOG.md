@@ -1,14 +1,14 @@
 # CHANGE LOG
 
-## V2.0.5 (01/04/2025)
+## V2.0.5 (05/04/2025)
 
 # PT-BR
 
-- Esta ocorrendo erro que por default deve ser uma string vazia e não um boolean
+- Esta ocorrendo erro que por default deve ser uma string vazia e não um boolean. @bhcosta90 in https://github.com/Quantum-Tecnology/Handler-Basics-Extension/pull/4
 
 # EN
 
-- This error is occurring which by default should be an empty string and not a boolean
+- This error is occurring which by default should be an empty string and not a boolean. @bhcosta90 in https://github.com/Quantum-Tecnology/Handler-Basics-Extension/pull/4
 
 ## V2.0.5 (01/04/2025)
 
