@@ -2,10 +2,11 @@
 
 namespace QuantumTecnology\HandlerBasicsExtension\Traits;
 
-use QuantumTecnology\HandlerBasicsExtension\Exceptions\ApiResponseException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
+use QuantumTecnology\HandlerBasicsExtension\Exceptions\ApiResponseException;
 
 trait ApiResponseTrait
 {
@@ -17,7 +18,7 @@ trait ApiResponseTrait
         ?string $message = null,
         array $arrayToAppend = [],
         bool $allowedInclude = false,
-        bool $allowedFilters = false
+        bool $allowedFilters = false,
     ): JsonResponse {
         return $this->customResponse(
             data: $data,
@@ -71,7 +72,7 @@ trait ApiResponseTrait
     public function notFoundResponse(
         ?string $message = null,
         array|object|null $data = null,
-        array $arrayToAppend = []
+        array $arrayToAppend = [],
     ): void {
         $this->customResponse(
             message: $message ?? __('messages.errors.notfound'),
@@ -88,7 +89,7 @@ trait ApiResponseTrait
     public function unprocessableEntityResponse(
         ?string $message = null,
         array|object|null $data = null,
-        array $arrayToAppend = []
+        array $arrayToAppend = [],
     ): void {
         $this->customResponse(
             message: $message ?? __('messages.errors.validation'),
@@ -105,7 +106,7 @@ trait ApiResponseTrait
     public function internalServerErrorResponse(
         ?string $message = null,
         array|object|null $data = null,
-        array $arrayToAppend = []
+        array $arrayToAppend = [],
     ): void {
         $this->customResponse(
             message: $message ?? __('A API está temporariamente em manutenção, tente novamente mais tarde!'),
@@ -134,7 +135,7 @@ trait ApiResponseTrait
         bool $allowedInclude = false,
         bool $allowedFilters = false,
         bool $exception = false,
-        array $arrayToAppend = []
+        array $arrayToAppend = [],
     ): JsonResponse {
         $data = is_array($data) ? (object) $data : $data;
 
@@ -167,6 +168,15 @@ trait ApiResponseTrait
                     'current_page'   => $data->currentPage(),
                     'next_page'      => $data->hasMorePages() ? $data->currentPage() + 1 : null,
                     'last_page'      => $data->lastPage(),
+                    'per_page'       => $data->perPage(),
+                    'has_more_pages' => $data->hasMorePages(),
+                ];
+            } elseif (isset($data->resource) && $data->resource instanceof Paginator) {
+                $content['data'] = $data->items();
+
+                $content['pagination'] = [
+                    'current_page'   => $data->currentPage(),
+                    'next_page'      => $data->hasMorePages() ? $data->currentPage() + 1 : null,
                     'per_page'       => $data->perPage(),
                     'has_more_pages' => $data->hasMorePages(),
                 ];
@@ -216,12 +226,12 @@ trait ApiResponseTrait
     public function checkIncludes(): void
     {
         $include = collect(explode(',', request()->get('include', '')))
-            ->map(function($item){
+            ->map(function ($item) {
                 [$item] = explode(':', $item);
+
                 return $item;
             })
             ->implode(',');
-
 
         if ($include && $diff = array_diff(explode(',', $include), $this->allowedIncludes)) {
             $this->forbiddenResponse("The following includes are not allowed: '".implode(',', $diff)."', enabled: '".implode(',', $this->allowedIncludes)."'");
