@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.0.7 (06/04/2025)
+
+# PT-BR
+
+- Acrescentado o simple pagination. @GustavoSantarosa
+
+# EN
+
+- This error is occurring which by default should be an empty string and not a boolean. @bhcosta90 in https://github.com/Quantum-Tecnology/Handler-Basics-Extension/pull/4
+
 ## V2.0.6 (05/04/2025)
 
 # PT-BR
