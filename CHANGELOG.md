@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## X.X.X (06/04/2025)
+
+# PT-BR
+
+- Alterando a palavra include para includes, de acordo com o pacote do service @bhcosta90
+
+# EN
+
+- Changing the word include to includes, according to the service package @bhcosta90
+
 ## V2.0.7 (06/04/2025)
 
 # PT-BR
