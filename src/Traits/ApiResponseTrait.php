@@ -169,6 +169,7 @@ trait ApiResponseTrait
                     'next_page'      => $data->hasMorePages() ? $data->currentPage() + 1 : null,
                     'last_page'      => $data->lastPage(),
                     'per_page'       => $data->perPage(),
+                    'max_per_page'   => config('perpage.max_per_page'),
                     'has_more_pages' => $data->hasMorePages(),
                 ];
             } elseif (isset($data->resource) && $data->resource instanceof Paginator) {
@@ -178,6 +179,7 @@ trait ApiResponseTrait
                     'current_page'   => $data->currentPage(),
                     'next_page'      => $data->hasMorePages() ? $data->currentPage() + 1 : null,
                     'per_page'       => $data->perPage(),
+                    'max_per_page'   => config('perpage.max_per_page'),
                     'has_more_pages' => $data->hasMorePages(),
                 ];
             } else {

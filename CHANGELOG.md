@@ -18,7 +18,7 @@
 
 # EN
 
-- This error is occurring which by default should be an empty string and not a boolean. @bhcosta90 in https://github.com/Quantum-Tecnology/Handler-Basics-Extension/pull/4
+- Added simple pagination. @GustavoSantarosa
 
 ## V2.0.6 (05/04/2025)
 
