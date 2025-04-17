@@ -1,14 +1,26 @@
 # CHANGE LOG
 
-## X.X.X (06/04/2025)
+## V2.0.9 (10/04/2025)
 
 # PT-BR
 
-- Alterando a palavra include para includes, de acordo com o pacote do service @bhcosta90
+- Ajustado uma validação do allowedFilters. @GustavoSantarosa
 
 # EN
 
-- Changing the word include to includes, according to the service package @bhcosta90
+- Adjusted a validation of the allowedFilters. @GustavoSantarosa
+
+## V2.0.8 (10/04/2025)
+
+# PT-BR
+
+- Alterando a palavra include para includes, de acordo com o pacote do service. @bhcosta90
+- Adicionando o max_per_page no retorno. @GustavoSantarosa
+
+# EN
+
+- Changing the word include to includes, according to the service package. @bhcosta90
+- Added max_per_page to the response. @GustavoSantarosa
 
 ## V2.0.7 (06/04/2025)
 

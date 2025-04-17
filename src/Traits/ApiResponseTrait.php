@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace QuantumTecnology\HandlerBasicsExtension\Traits;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -14,7 +16,7 @@ trait ApiResponseTrait
      * OkResponse function.
      */
     public function okResponse(
-        array|object|null $data = null,
+        array | object | null $data = null,
         ?string $message = null,
         array $arrayToAppend = [],
         bool $allowedInclude = false,
@@ -71,7 +73,7 @@ trait ApiResponseTrait
      */
     public function notFoundResponse(
         ?string $message = null,
-        array|object|null $data = null,
+        array | object | null $data = null,
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
@@ -88,7 +90,7 @@ trait ApiResponseTrait
      */
     public function unprocessableEntityResponse(
         ?string $message = null,
-        array|object|null $data = null,
+        array | object | null $data = null,
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
@@ -105,7 +107,7 @@ trait ApiResponseTrait
      */
     public function internalServerErrorResponse(
         ?string $message = null,
-        array|object|null $data = null,
+        array | object | null $data = null,
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
@@ -129,7 +131,7 @@ trait ApiResponseTrait
     }
 
     public function customResponse(
-        array|object|null $data = null,
+        array | object | null $data = null,
         ?string $message = null,
         int $status = 200,
         bool $allowedInclude = false,
@@ -159,6 +161,7 @@ trait ApiResponseTrait
         ) {
             $content['allowed_filters'] = $this->allowedFilters;
         }
+
         if (!is_null($data)) {
             if (isset($data->resource) && $data->resource instanceof LengthAwarePaginator) {
                 $content['data'] = $data->items();
@@ -206,7 +209,7 @@ trait ApiResponseTrait
 
     public function setAllowedFilters(array $allowedFilters): void
     {
-        if (0 === count($this->allowedFilters)) {
+        if (!isset($this->allowedFilters) || 0 === count($this->allowedFilters)) {
             $this->allowedFilters = $allowedFilters;
 
             return;
@@ -236,7 +239,7 @@ trait ApiResponseTrait
             ->implode(',');
 
         if ($include && $diff = array_diff(explode(',', $include), $this->allowedIncludes)) {
-            $this->forbiddenResponse("The following includes are not allowed: '".implode(',', $diff)."', enabled: '".implode(',', $this->allowedIncludes)."'");
+            $this->forbiddenResponse("The following includes are not allowed: '" . implode(',', $diff) . "', enabled: '" . implode(',', $this->allowedIncludes) . "'");
         }
     }
 }
