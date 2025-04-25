@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace QuantumTecnology\HandlerBasicsExtension\Traits;
 
@@ -16,7 +16,7 @@ trait ApiResponseTrait
      * OkResponse function.
      */
     public function okResponse(
-        array | object | null $data = null,
+        array|object|null $data = null,
         ?string $message = null,
         array $arrayToAppend = [],
         bool $allowedInclude = false,
@@ -73,7 +73,7 @@ trait ApiResponseTrait
      */
     public function notFoundResponse(
         ?string $message = null,
-        array | object | null $data = null,
+        array|object|null $data = null,
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
@@ -90,7 +90,7 @@ trait ApiResponseTrait
      */
     public function unprocessableEntityResponse(
         ?string $message = null,
-        array | object | null $data = null,
+        array|object|null $data = null,
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
@@ -107,7 +107,7 @@ trait ApiResponseTrait
      */
     public function internalServerErrorResponse(
         ?string $message = null,
-        array | object | null $data = null,
+        array|object|null $data = null,
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
@@ -131,7 +131,7 @@ trait ApiResponseTrait
     }
 
     public function customResponse(
-        array | object | null $data = null,
+        array|object|null $data = null,
         ?string $message = null,
         int $status = 200,
         bool $allowedInclude = false,
@@ -147,11 +147,11 @@ trait ApiResponseTrait
         ];
 
         if (
-            count($this->allowedIncludes ?? []) > 0
+            count($this->getAllowedIncludes()) > 0
             && $allowedInclude
             && 'production' !== config('app.env')
         ) {
-            $content['allowed_includes'] = $this->allowedIncludes;
+            $content['allowed_includes'] = $this->getAllowedIncludes();
         }
 
         if (
@@ -199,30 +199,26 @@ trait ApiResponseTrait
 
     public function setAllowedIncludes(array $allowedIncludes): void
     {
-        $this->allowedIncludes = $allowedIncludes;
+        if (property_exists($this, 'allowedIncludes')) {
+            $this->allowedIncludes = $allowedIncludes;
+        }
     }
 
     public function getAllowedIncludes(): array
     {
-        return $this->allowedIncludes;
+        return property_exists($this, 'allowedIncludes') ? $this->allowedIncludes : [];
     }
 
     public function setAllowedFilters(array $allowedFilters): void
     {
-        if (!isset($this->allowedFilters) || 0 === count($this->allowedFilters)) {
-            $this->allowedFilters = $allowedFilters;
-
-            return;
+        if (property_exists($this, 'allowedIncludes')) {
+            $this->allowedFilters = array_values(array_unique(array_merge($this->getAllowedFilters(), $allowedFilters)));
         }
-
-        $this->allowedFilters = array_unique(array_merge($this->allowedFilters, $allowedFilters));
-
-        $this->allowedFilters = array_values($this->allowedFilters);
     }
 
     public function getAllowedFilters(): array
     {
-        return $this->allowedFilters;
+        return property_exists($this, 'allowedFilters') ? $this->allowedFilters : [];
     }
 
     /**
@@ -238,8 +234,8 @@ trait ApiResponseTrait
             })
             ->implode(',');
 
-        if ($include && $diff = array_diff(explode(',', $include), $this->allowedIncludes)) {
-            $this->forbiddenResponse("The following includes are not allowed: '" . implode(',', $diff) . "', enabled: '" . implode(',', $this->allowedIncludes) . "'");
+        if ($include && $diff = array_diff(explode(',', $include), $this->getAllowedIncludes())) {
+            $this->forbiddenResponse("The following includes are not allowed: '".implode(',', $diff)."', enabled: '".implode(',', $this->getAllowedIncludes())."'");
         }
     }
 }
