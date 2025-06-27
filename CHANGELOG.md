@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## X.X.X
+
+# PT-BR
+
+- Adicionando uma nova excessão para o base handler. @bhcosta90
+
+# EN
+
+- Adding a new exception to the Handler base. @bhcosta90
+
 ## V2.0.10 (24/04/2025)
 
 # PT-BR
