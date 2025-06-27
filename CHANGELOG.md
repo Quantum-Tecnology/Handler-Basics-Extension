@@ -1,14 +1,14 @@
 # CHANGE LOG
 
-## X.X.X
+## V2.0.11 (27/06/2025)
 
 # PT-BR
 
-- Adicionando uma nova excessão para o base handler. @bhcosta90
+- Adicionando uma nova excessão para o base handler. @bhcosta90 in https://github.com/Quantum-Tecnology/Handler-Basics-Extension/pull/7
 
 # EN
 
-- Adding a new exception to the Handler base. @bhcosta90
+- Adding a new exception to the Handler base. @bhcosta90 in https://github.com/Quantum-Tecnology/Handler-Basics-Extension/pull/7
 
 ## V2.0.10 (24/04/2025)
 
