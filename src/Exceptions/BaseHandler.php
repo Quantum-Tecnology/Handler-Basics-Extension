@@ -3,6 +3,7 @@
 namespace QuantumTecnology\HandlerBasicsExtension\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -62,15 +63,16 @@ class BaseHandler extends ExceptionHandler
     public function render($request, \Throwable $e)
     {
         $callback = match (true) {
-            $e instanceof ApiResponseException   => response()->json($e->getApiResponse(), $e->getCode()),
-            $e instanceof ValidationException    => $this->customResponse(status: Response::HTTP_UNPROCESSABLE_ENTITY, message: 'Erro de validação!', data: $e->errors()),
-            $e instanceof ModelNotFoundException => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: 'Sem resultados para a sua pesquisa!'),
-            $e instanceof NotFoundHttpException  => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: $e->getMessage()),
-            $e instanceof AuthorizationException => $this->customResponse(status: Response::HTTP_FORBIDDEN, message: $e->getMessage()),
-            $e instanceof HttpException          => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
-            $e instanceof QueryException         => $this->queryResponse($e),
-            !config('app.debug')            => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
-            default                              => false,
+            $e instanceof ApiResponseException    => response()->json($e->getApiResponse(), $e->getCode()),
+            $e instanceof ValidationException     => $this->customResponse(status: Response::HTTP_UNPROCESSABLE_ENTITY, message: 'Erro de validação!', data: $e->errors()),
+            $e instanceof ModelNotFoundException  => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: 'Sem resultados para a sua pesquisa!'),
+            $e instanceof NotFoundHttpException   => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: $e->getMessage()),
+            $e instanceof AuthorizationException  => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
+            $e instanceof AuthenticationException => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
+            $e instanceof HttpException           => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
+            $e instanceof QueryException          => $this->queryResponse($e),
+            !config('app.debug')             => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
+            default                               => false,
         };
 
         if ($callback instanceof JsonResponse) {
