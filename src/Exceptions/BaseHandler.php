@@ -70,7 +70,7 @@ class BaseHandler extends ExceptionHandler
             $e instanceof AuthorizationException  => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
             $e instanceof AuthenticationException => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
             $e instanceof HttpException           => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
-            $e instanceof QueryException          => $this->queryResponse($e),
+            #$e instanceof QueryException          => $this->queryResponse($e),
             !config('app.debug')             => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
             default                               => false,
         };
