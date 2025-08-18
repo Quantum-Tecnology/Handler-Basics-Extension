@@ -209,18 +209,6 @@ trait ApiResponseTrait
         return property_exists($this, 'allowedIncludes') ? $this->allowedIncludes : [];
     }
 
-    public function setAllowedFilters(array $allowedFilters): void
-    {
-        if (property_exists($this, 'allowedIncludes')) {
-            $this->allowedFilters = array_values(array_unique(array_merge($this->getAllowedFilters(), $allowedFilters)));
-        }
-    }
-
-    public function getAllowedFilters(): array
-    {
-        return property_exists($this, 'allowedFilters') ? $this->allowedFilters : [];
-    }
-
     /**
      * CheckIncludes function.
      */

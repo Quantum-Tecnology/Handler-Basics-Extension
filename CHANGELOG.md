@@ -1,5 +1,25 @@
 # CHANGE LOG
 
+## V2.0.13 (18/08/2025)
+
+# PT-BR
+
+- Realocado  o setAllowedFilters e getAllowedFilters. @GustavoSantarosa
+
+# EN
+
+- Relocated the setAllowedFilters and getAllowedFilters. @GustavoSantarosa
+
+## V2.0.12 (30/07/2025)
+
+# PT-BR
+
+- Comentado QueryException por estar quebrando no retorno. @GustavoSantarosa
+
+# EN
+
+- Commented out QueryException for breaking the return. @GustavoSantarosa
+
 ## V2.0.11 (27/06/2025)
 
 # PT-BR
