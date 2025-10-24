@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace QuantumTecnology\HandlerBasicsExtension\Traits;
 
+use QuantumTecnology\HandlerBasicsExtension\Libs\CsvExport;
+use GuzzleHttp\Psr7\Stream;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use QuantumTecnology\HandlerBasicsExtension\Exceptions\ApiResponseException;
+use QuantumTecnology\ValidateTrait\Data;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 trait ApiResponseTrait
 {
@@ -21,7 +25,7 @@ trait ApiResponseTrait
         array $arrayToAppend = [],
         bool $allowedInclude = false,
         bool $allowedFilters = false,
-    ): JsonResponse {
+    ): JsonResponse | StreamedResponse {
         return $this->customResponse(
             data: $data,
             message: $message ?? __('messages.successfully.show'),
@@ -138,7 +142,7 @@ trait ApiResponseTrait
         bool $allowedFilters = false,
         bool $exception = false,
         array $arrayToAppend = [],
-    ): JsonResponse {
+    ): JsonResponse | StreamedResponse {
         $data = is_array($data) ? (object) $data : $data;
 
         $content = [
@@ -192,7 +196,28 @@ trait ApiResponseTrait
 
         $content += $arrayToAppend;
 
+
         throw_if($exception, new ApiResponseException($status, $content));
+
+        if (request()->hasHeader('accept') && 'text/csv' === request()->header('accept')) {
+
+            $response = $this->generateCsv($content);
+
+            $filename = basename($response->data->filename ?? 'template_requests.csv');
+            $content  = $response->data->content ? base64_decode($response->data->content) : '';
+
+            return response()
+                ->streamDownload(function () use ($content): void {
+                    echo $content;
+                }, $filename, [
+                    'Content-Type'              => 'text/csv;',
+                    'Content-Transfer-Encoding' => 'binary',
+                    'Content-Length'            => (string) mb_strlen($content),
+                    'Pragma'                    => 'public',
+                    'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+                ]);
+        }
+
 
         return response()->json($content, $status);
     }
@@ -225,5 +250,22 @@ trait ApiResponseTrait
         if ($include && $diff = array_diff(explode(',', $include), $this->getAllowedIncludes())) {
             $this->forbiddenResponse("The following includes are not allowed: '".implode(',', $diff)."', enabled: '".implode(',', $this->getAllowedIncludes())."'");
         }
+    }
+
+    private function generateCsv($content): Data
+    {
+        $data = collect($content['data'] ?? []);
+        $headers = $data->first() ? array_keys($data->first()->resource->toArray()) : [];
+        $csv = new CsvExport('"', ";");
+        $csv->setRestrictedHeader($headers);
+        $csv->addCsv($data);
+
+        return new Data([
+            'message' => __('Generating template catalog'),
+            'data'    => (object) [
+                'filename' => 'template_catalog.csv',
+                'content'  => base64_encode($csv->getStream()),
+            ],
+        ]);
     }
 }

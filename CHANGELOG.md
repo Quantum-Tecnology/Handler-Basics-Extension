@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.1.0 (24/10/2025)
+
+# PT-BR
+
+- Adicionado a opção para exportar via csv. @GustavoSantarosa
+
+# EN
+
+- Added the option to export via csv. @GustavoSantarosa
+
 ## V2.0.13 (18/08/2025)
 
 # PT-BR
