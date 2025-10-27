@@ -212,9 +212,9 @@ trait ApiResponseTrait
                 }, $filename, [
                     'Content-Type'              => 'text/csv;',
                     'Content-Transfer-Encoding' => 'binary',
-                    'Content-Length'            => (string) mb_strlen($content),
                     'Pragma'                    => 'public',
                     'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+                    'Content-Disposition'        => 'attachment; filename="' . $filename . '"',
                 ]);
         }
 
