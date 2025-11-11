@@ -144,7 +144,6 @@ trait ApiResponseTrait
         array $arrayToAppend = [],
     ): JsonResponse | StreamedResponse {
         $data = is_array($data) ? (object) $data : $data;
-
         $content = [
             'success' => $status >= 200 && $status < 300,
             'message' => $message ?? 'Response is successful!',
@@ -255,7 +254,8 @@ trait ApiResponseTrait
     private function generateCsv($content): Data
     {
         $data = collect($content['data'] ?? []);
-        $headers = $data->first() ? array_keys($data->first()->resource->toArray()) : [];
+
+        $headers = $data->first() ? array_keys($data->first()->resource->withoutRelations()->toArray()) : [];
         $csv = new CsvExport('"', ";");
         $csv->setRestrictedHeader($headers);
         $csv->addCsv($data);

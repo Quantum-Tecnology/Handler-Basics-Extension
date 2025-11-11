@@ -152,7 +152,7 @@ class CsvExport
     public function addCsv(Collection $collection): self
     {
         $this->csv = $collection->transform(function ($item) {
-            return $item->resource->toArray();
+            return $item->resource->withoutRelations()->toArray();
         })->toArray();
 
         return $this;
