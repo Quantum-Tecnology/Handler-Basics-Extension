@@ -1,5 +1,6 @@
 {
   "name": "quantumtecnology/handler-basics-extension",
+  "type": "library",
   "license": "MIT",
   "homepage": "http://www.gustavosantarosa.esy.es/",
   "description": "Handler Basics Extension",
