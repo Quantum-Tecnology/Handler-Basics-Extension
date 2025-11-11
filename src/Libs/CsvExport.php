@@ -71,7 +71,7 @@ class CsvExport
                 foreach ($csv as $row) {
                     fputcsv(
                         $fp,
-                        $row,
+                        array_filter($row, 'is_scalar'),
                         $this->collumLimiter,
                         $this->rowLimiter,
                     );
@@ -111,9 +111,12 @@ class CsvExport
         );
 
         foreach ($this->csv as $row) {
+            //dentro da row, esta vindo outras relações como array, e esta dando erro, eu preciso remover esses arrays
+            $row = array_filter($row, 'is_scalar');
+
             fputcsv(
                 $output,
-                $row,
+                array_filter($row, 'is_scalar'),
                 $this->collumLimiter,
                 $this->rowLimiter,
             );

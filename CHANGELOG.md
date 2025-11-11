@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.1.2 (11/11/2025)
+
+# PT-BR
+
+- Corrigido um erro na exportação via csv, quando havia relações dentro da linha a ser exportado, ele apresentava erro de array to string, removido todos os arrays internos a linha, para que nao ocorra mais esse erro. @GustavoSantarosa
+
+# EN
+
+- Fixed an error in the csv export when there were relationships within the row to be exported, it presented an array to string error, removed all internal arrays from the row to prevent this error from occurring. @GustavoSantarosa
+
 ## V2.1.0 (24/10/2025)
 
 # PT-BR
