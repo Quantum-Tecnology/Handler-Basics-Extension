@@ -1,5 +1,17 @@
 # CHANGE LOG
 
+## V2.2.0 (18/12/2025)
+
+# PT-BR
+
+- Corrigido um de para de code no basehandle para gate e policy. @GustavoSantarosa
+- Atualizado a versao do composer. @GustavoSantarosa
+
+# EN
+
+- Fixed a code stop in the basehandle for gate and policy. @GustavoSantarosa
+- Updated the composer version. @GustavoSantarosa
+
 ## V2.1.2 (11/11/2025)
 
 # PT-BR
