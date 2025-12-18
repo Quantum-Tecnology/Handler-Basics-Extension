@@ -67,7 +67,7 @@ class BaseHandler extends ExceptionHandler
             $e instanceof ValidationException     => $this->customResponse(status: Response::HTTP_UNPROCESSABLE_ENTITY, message: 'Erro de validação!', data: $e->errors()),
             $e instanceof ModelNotFoundException  => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: 'Sem resultados para a sua pesquisa!'),
             $e instanceof NotFoundHttpException   => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: $e->getMessage()),
-            $e instanceof AuthorizationException  => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
+            $e instanceof AuthorizationException  => $this->customResponse(status: $e->getCode() ?? Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
             $e instanceof AuthenticationException => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
             $e instanceof HttpException           => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
             #$e instanceof QueryException          => $this->queryResponse($e),
