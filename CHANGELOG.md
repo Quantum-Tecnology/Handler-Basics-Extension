@@ -1,5 +1,15 @@
 # CHANGE LOG
 
+## V2.2.1 (18/12/2025)
+
+# PT-BR
+
+- Atualizado a versao do composer. @GustavoSantarosa
+
+# EN
+
+- Updated the composer version. @GustavoSantarosa
+
 ## V2.2.0 (18/12/2025)
 
 # PT-BR
@@ -36,7 +46,7 @@
 
 # PT-BR
 
-- Realocado  o setAllowedFilters e getAllowedFilters. @GustavoSantarosa
+- Realocado o setAllowedFilters e getAllowedFilters. @GustavoSantarosa
 
 # EN
 
