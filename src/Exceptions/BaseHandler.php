@@ -2,19 +2,17 @@
 
 namespace QuantumTecnology\HandlerBasicsExtension\Exceptions;
 
-use Exception;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use QuantumTecnology\HandlerBasicsExtension\Traits\ApiResponseTrait;
 
+/**
+ * Handler para registro manual (Laravel ≤ 10, ou quem faz
+ * `singleton(ExceptionHandler::class, BaseHandler::class)`).
+ *
+ * No Laravel 11+ prefira `ApiExceptions::configure($exceptions)` no
+ * `withExceptions` do bootstrap/app.php: é a mesma regra, sem trocar o handler
+ * do framework.
+ */
 class BaseHandler extends ExceptionHandler
 {
     use ApiResponseTrait;
@@ -46,6 +44,12 @@ class BaseHandler extends ExceptionHandler
      */
     public function register()
     {
+        // Mesmo código de referência da resposta, no contexto do log/Telescope.
+        $this->buildContextUsing(
+            static fn (\Throwable $e): array => ['reference' => ErrorReference::for($e)]
+        );
+
+        // Sentry é opcional (suggest): só reporta se o projeto o tiver instalado.
         if (!config('app.debug')) {
             $this->reportable(function (\Throwable $e) {
                 if (app()->bound('sentry')) {
@@ -62,34 +66,6 @@ class BaseHandler extends ExceptionHandler
 
     public function render($request, \Throwable $e)
     {
-        $callback = match (true) {
-            $e instanceof ApiResponseException    => response()->json($e->getApiResponse(), $e->getCode()),
-            $e instanceof ValidationException     => $this->customResponse(status: Response::HTTP_UNPROCESSABLE_ENTITY, message: 'Erro de validação!', data: $e->errors()),
-            $e instanceof ModelNotFoundException  => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: 'Sem resultados para a sua pesquisa!'),
-            $e instanceof NotFoundHttpException   => $this->customResponse(status: Response::HTTP_NOT_FOUND, message: $e->getMessage()),
-            $e instanceof AuthorizationException  => $this->customResponse(status: $e->getCode() ?? Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
-            $e instanceof AuthenticationException => $this->customResponse(status: Response::HTTP_UNAUTHORIZED, message: $e->getMessage()),
-            $e instanceof HttpException           => $this->customResponse(status: $e->getStatusCode(), message: $e->getMessage()),
-            #$e instanceof QueryException          => $this->queryResponse($e),
-            !config('app.debug')             => $this->customResponse(status: Response::HTTP_SERVICE_UNAVAILABLE, message: 'A API está temporariamente em manutenção, tente novamente mais tarde!'),
-            default                               => false,
-        };
-
-        if ($callback instanceof JsonResponse) {
-            return $callback;
-        }
-
-        return parent::render($request, $e);
-    }
-
-    protected function queryResponse(Exception $exception) {
-        if ((int) $exception->getCode() === 23503) {
-            return $this->customResponse(
-                status: Response::HTTP_BAD_REQUEST,
-                message: __('Ocorreu um erro ao tentar excluir o registro! Verifique se o mesmo não está vinculado a outro registro.')
-            );
-        }
-
-        throw $exception;
+        return ApiExceptions::render($e, $request) ?? parent::render($request, $e);
     }
 }
