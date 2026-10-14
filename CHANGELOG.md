@@ -1,5 +1,26 @@
 # CHANGE LOG
 
+## V2.3.0 (13/10/2026)
+
+# PT-BR
+
+- Adicionado `ApiExceptions::configure($exceptions)` para o `withExceptions` do Laravel 11+. Até aqui o tratamento só funcionava registrando o `BaseHandler` à mão, e as aplicações em Laravel 11+ que não o registravam ficavam sem o envelope de erro do pacote. @GustavoSantarosa
+- **Erro não mapeado em produção (`APP_DEBUG=false`) passa de 503 "A API está temporariamente em manutenção" para 500 com mensagem genérica e código de referência.** A estrutura interna continua escondida. O código vai no campo `reference` da resposta e no contexto do log/Telescope. O 503 fica para indisponibilidade real (`php artisan down`, `abort(503)`), que mantém o status. @GustavoSantarosa
+- **Corrigido: toda negação de policy/gate virava 503 "em manutenção" no `BaseHandler`.** O status vinha do `getCode()` da exceção, que é 0 quando não informado. O JsonResponse recusava o status 0, e essa segunda exceção caía no fallback de manutenção. Valia até para `denyWithStatus(404)`. Agora usa o status da policy ou 403. @GustavoSantarosa
+- `sentry/sentry-laravel` deixou de ser dependência obrigatória e foi para `suggest`. O `BaseHandler` só reporta ao Sentry se ele estiver instalado. Quem usa o Sentry deve declará-lo no próprio `composer.json`. @GustavoSantarosa
+- A mensagem padrão do `internalServerErrorResponse()` deixou de falar em "manutenção". @GustavoSantarosa
+- Removido o método `queryResponse()` do `BaseHandler`, que estava desligado (comentado no `match`) e não era usado. @GustavoSantarosa
+- Primeiros testes do pacote (PHPUnit + Testbench): 18 cenários, rodados pelos dois caminhos (`ApiExceptions` e `BaseHandler`). @GustavoSantarosa
+
+# EN
+
+- Added `ApiExceptions::configure($exceptions)` for Laravel 11+ `withExceptions`. @GustavoSantarosa
+- Unmapped errors in production now return 500 with a generic message and a reference code (also added to the log context) instead of 503 "under maintenance". @GustavoSantarosa
+- Fixed: every policy/gate denial became a 503 in `BaseHandler` (status 0 from `getCode()`). It now uses the policy status or 403. @GustavoSantarosa
+- `sentry/sentry-laravel` moved from `require` to `suggest`. @GustavoSantarosa
+- Removed the unused `BaseHandler::queryResponse()`. @GustavoSantarosa
+- First test suite (PHPUnit + Testbench). @GustavoSantarosa
+
 ## V2.2.1 (18/12/2025)
 
 # PT-BR

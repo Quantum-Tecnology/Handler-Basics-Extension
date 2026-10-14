@@ -6,13 +6,23 @@
   "description": "Handler Basics Extension",
   "require": {
     "php": "^8.0",
-    "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
-    "sentry/sentry-laravel": "^3.0|^4.0"
+    "laravel/framework": "^10.0|^11.0|^12.0|^13.0"
+  },
+  "suggest": {
+    "sentry/sentry-laravel": "O BaseHandler reporta as exceções ao Sentry quando ele está instalado."
   },
   "autoload": {
     "psr-4": {
       "QuantumTecnology\\HandlerBasicsExtension\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "QuantumTecnology\\HandlerBasicsExtension\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
   },
   "authors": [
     {
@@ -36,5 +46,9 @@
     "allow-plugins": {
       "php-http/discovery": true
     }
+  },
+  "require-dev": {
+    "orchestra/testbench": "^10.7",
+    "phpunit/phpunit": "^12.4"
   }
 }

@@ -115,7 +115,7 @@ trait ApiResponseTrait
         array $arrayToAppend = [],
     ): void {
         $this->customResponse(
-            message: $message ?? __('A API está temporariamente em manutenção, tente novamente mais tarde!'),
+            message: $message ?? __('Ocorreu um erro inesperado. Tente novamente; se persistir, contate o suporte.'),
             data: $data,
             status: Response::HTTP_INTERNAL_SERVER_ERROR,
             arrayToAppend: $arrayToAppend,
